@@ -1,10 +1,33 @@
+import time
 import customtkinter
 from PIL import Image
 import tkinter.messagebox as mbox
 
-def Main():
-    icon = "images/icon.ico"
+icon = "images/icon.ico"
 
+def tempWindow():
+    def UpdateW():
+         Main(tempw)
+    tempw = customtkinter.CTk()
+    tempw.maxsize(300,300)
+    tempw.minsize(300,300)
+    tempw.iconbitmap(icon)
+    tempw.wm_iconbitmap(icon)
+    tempw.overrideredirect(True)
+    tempw.title('FPS BOOSTER')
+
+    logo = customtkinter.CTkImage(Image.open("images\Logo.png"), size=(100, 100))
+    displaylogo = customtkinter.CTkLabel(tempw,height=200,width=200,image=logo,text="")
+    displaylogo.place(x=50,y=5)
+
+    progressbar = customtkinter.CTkProgressBar(tempw, orientation="horizontal",mode="indeterminate")
+    progressbar.place(x=50,y=200)
+    progressbar.start()
+    tempw.after(2500,UpdateW)
+    tempw.mainloop()
+
+def Main(tempw):
+    tempw.destroy()
     root = customtkinter.CTk()
     root.config(width=400,height=300)
     root.maxsize(400,300)
@@ -35,7 +58,7 @@ def Main():
 
 def LoadLabels(root):
     off = customtkinter.CTkImage(Image.open("images\off.png"), size=(15, 15))
-    
+
     close_button = customtkinter.CTkButton(root,text="",image=off,bg_color="lightblue",fg_color="lightblue",hover_color="lightblue",width=10,height=10,command=root.destroy,font=("verdana bold",15))
     close_button.place(x=370,y=0)
 
@@ -47,4 +70,5 @@ def LoadLabels(root):
        
 def mess():
     mbox.showinfo(title="FPS BOOSTER",message="Memory successfully cleaned.")
-Main()
+
+tempWindow()

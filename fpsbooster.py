@@ -1,3 +1,4 @@
+import ctypes
 import customtkinter
 from PIL import Image
 import tkinter.messagebox as mbox
@@ -6,6 +7,8 @@ import os
 icon = "images/icon.ico"
 logo = customtkinter.CTkImage(Image.open("images\Logo.png"), size=(100, 100))
 appdata = os.getenv('LOCALAPPDATA')
+radius = 20
+
 def windowConfig(window,x,y):
     window.eval('tk::PlaceWindow . center')
     window.maxsize(x,y)
@@ -14,7 +17,12 @@ def windowConfig(window,x,y):
     window.wm_iconbitmap(icon)
     window.overrideredirect(True)
     window.title('FPS BOOSTER')
-
+def set_window_shape(window, radius):
+        hwnd = window.winfo_id()
+        window.update_idletasks()
+        
+        region = ctypes.windll.gdi32.CreateRoundRectRgn(0, 0, window.winfo_width(), window.winfo_height(), radius, radius)
+        ctypes.windll.user32.SetWindowRgn(hwnd, region, True)
 def tempWindow():
     def UpdateW():
          Main(tempw)
@@ -27,6 +35,8 @@ def tempWindow():
     progressbar = customtkinter.CTkProgressBar(tempw, orientation="horizontal",mode="indeterminate",indeterminate_speed=2,corner_radius=3)
     progressbar.place(x=50,y=200)
     progressbar.start()
+    
+    set_window_shape(tempw, radius)
 
     tempw.after(2500,UpdateW)
     tempw.mainloop()
@@ -36,6 +46,7 @@ def Main(tempw):
     root = customtkinter.CTk()
     windowConfig(root,400,300)
     LoadLabels(root)
+    set_window_shape(root, radius)
     root.mainloop()
 
 def LoadLabels(root):
@@ -96,10 +107,21 @@ def FortniteLowGraphics():
     autorization = mbox.askquestion(title="Confirmation",message="This will replace your GameUserSettings.ini, would you like to continue?")
     if autorization == "yes":
         gameSettingsPath = appdata+fr"\FortniteGame\Saved\Config\WindowsClient\GameUserSettings.ini"
-        with open (fr"files\gameusersettingslow.txt","r") as read:
-            content = read.read()
-        with open(gameSettingsPath,"w") as w:
-            w.write(content)
+
+        try:
+            with open (fr"files\gameusersettingslow.txt","r") as read:
+                content = read.read()
+        except FileNotFoundError:
+            mbox.showerror(title="FPS BOOSTER",message="GamerUserSettingsLow.txt not found. Check files folder..")
+            return
+
+        try:
+            with open(gameSettingsPath,"w") as w:
+                w.write(content)
+        except FileNotFoundError:
+            mbox.showerror(title="FPS BOOSTER",message="Fortnite GameUserSettings.ini not found. Check fortnite instalation..")
+            return
+
         mbox.showinfo(title="FPS BOOSTER",message="Operation finished!")
         return
     else:

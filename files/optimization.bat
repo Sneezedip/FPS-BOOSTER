@@ -84,3 +84,5 @@ REG ADD "HKLM\SYSTEM\CurrentControlSet\services\TCPIP6\Parameters" /v "EnableICS
 REG ADD "HKLM\SYSTEM\CurrentControlSet\services\TCPIP6\Parameters" /v "DisabledComponents" /t REG_DWORD /d 255 /f
 taskkill /f /im explorer.exe
 start explorer.exe
+powershell -Command "[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('Operation Finished!', 'Info', 'OK', [System.Windows.Forms.MessageBoxIcon]::Information)"
+exit

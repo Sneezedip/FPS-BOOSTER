@@ -1,9 +1,7 @@
-import time
 import customtkinter
 from PIL import Image
 import tkinter.messagebox as mbox
 import os
-import pyuac
 
 icon = "images/icon.ico"
 logo = customtkinter.CTkImage(Image.open("images\Logo.png"), size=(100, 100))
@@ -62,6 +60,7 @@ def LoadLabels(root):
     off = customtkinter.CTkImage(Image.open("images\off.png"), size=(15, 15))
     close_button = customtkinter.CTkButton(root,text="",image=off,bg_color="lightblue",fg_color="lightblue",hover_color="lightblue",width=10,height=10,command=root.destroy,font=("verdana bold",15))
     cleanMemoryButton = customtkinter.CTkButton(root,text = "Optimize Windows",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",command=Optimization)
+    netOptimizeButton = customtkinter.CTkButton(root,text = "Optimize Internet  ",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",command=NetOptimization)
     fortniteLow = customtkinter.CTkButton(root,text = "Optimize Fortnite",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",command=FortniteLowGraphics)
     fortniteLowLabel = customtkinter.CTkLabel(root,text="(low graphics)",font=("verdana",12),text_color="grey",bg_color="transparent",fg_color="transparent")
 
@@ -70,6 +69,7 @@ def LoadLabels(root):
     close_button.place(x=370,y=0)
     titleLabel.place(x=150,y=0)
     cleanMemoryButton.place(x=30,y=70)
+    netOptimizeButton.place(x=30,y=125)
     fortniteLowLabel.place(x=255,y=40)
     fortniteLow.place(x=230,y=70)
 
@@ -78,6 +78,15 @@ def Optimization():
     autorization = mbox.askquestion(title="Confirmation",message="This will run some commands in your command line, do you want to continue?")
     if autorization == "yes":
         os.startfile(r"files\optimization.bat")
+        return
+    else:
+        mbox.showinfo(title="FPS BOOSTER",message="Operation canceled.")
+        return
+    
+def NetOptimization():
+    autorization = mbox.askquestion(title="Confirmation",message="This will run some commands in your command line, do you want to continue?")
+    if autorization == "yes":
+        os.startfile(r"files\netoptimization.bat")
         return
     else:
         mbox.showinfo(title="FPS BOOSTER",message="Operation canceled.")

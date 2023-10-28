@@ -111,7 +111,7 @@ def LoadLabels(root):
     close_button = customtkinter.CTkButton(root,text="",image=off,bg_color="lightblue",fg_color="lightblue",hover_color="lightblue",width=10,height=10,command=root.destroy,font=("verdana bold",15))
     cleanMemoryButton = customtkinter.CTkButton(root,text = "Optimize Windows",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",corner_radius=9,command=Optimization)
     netOptimizeButton = customtkinter.CTkButton(root,text = "Optimize Internet  ",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",corner_radius=9,command=NetOptimization)
-    fortniteLow = customtkinter.CTkButton(root,text = "Optimize Fortnite",font=("verdana",15),text_color="black",fg_color="lightblue",bg_color="transparent",hover_color=None,corner_radius=9,command=nightMode)
+    fortniteLow = customtkinter.CTkButton(root,text = "Optimize Fortnite",font=("verdana",15),text_color="black",fg_color="lightblue",bg_color="transparent",hover_color=None,corner_radius=9,command=FortniteLowGraphics)
     fortniteLowLabel = customtkinter.CTkLabel(root,text="(low graphics)",font=("verdana",12),text_color="grey",bg_color="transparent",fg_color="transparent")
   
     border.place(x=0,y=0)

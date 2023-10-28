@@ -13,3 +13,4 @@
 - Python
 - Customtkinter
 - PIL (Python Imaging Library)
+- Ctypes

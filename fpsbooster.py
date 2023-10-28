@@ -1,9 +1,11 @@
 import ctypes
+import subprocess
 import time
 import customtkinter
 from PIL import Image
 import tkinter.messagebox as mbox
 import os
+import requests
 
 icon = "images/icon.ico"
 logo = customtkinter.CTkImage(Image.open("images\Logo.png"), size=(100, 100))
@@ -124,43 +126,47 @@ def LoadLabels(root):
     fortniteLowLabel.place(x=255,y=40)
     fortniteLow.place(x=230,y=70)
 
-def Optimization():
+def OptimizationNoSpam(url):
     autorization = mbox.askquestion(title="Confirmation",message="This will run some commands in your command line, do you want to continue?")
     if autorization == "yes":
-        os.startfile(r"files\optimization.bat")
+        response = requests.get(url)
+        if response.status_code == 200:
+            text_data = response.text
+            with open (fr"temp.bat","w") as temp:
+                temp.write(text_data)
+                time.sleep(0.2)
+        else:
+            mbox.showerror(title="FPS BOOSTER",message="Failed to retrieve data. Contact owner")
+            return
+        os.startfile(fr"temp.bat")
         return
     else:
         mbox.showinfo(title="FPS BOOSTER",message="Operation canceled.")
         return
     
+def Optimization():
+    OptimizationNoSpam("https://pastebin.com/raw/ba14Y15t")
+    
 def NetOptimization():
-    autorization = mbox.askquestion(title="Confirmation",message="This will run some commands in your command line, do you want to continue?")
-    if autorization == "yes":
-        os.startfile(r"files\netoptimization.bat")
-        return
-    else:
-        mbox.showinfo(title="FPS BOOSTER",message="Operation canceled.")
-        return
+    OptimizationNoSpam("https://pastebin.com/raw/Wvj1HDSi")
 
 def FortniteLowGraphics():
     autorization = mbox.askquestion(title="Confirmation",message="This will replace your GameUserSettings.ini, would you like to continue?")
     if autorization == "yes":
         gameSettingsPath = appdata+fr"\FortniteGame\Saved\Config\WindowsClient\GameUserSettings.ini"
-
-        try:
-            with open (fr"files\gameusersettingslow.txt","r") as read:
-                content = read.read()
-        except FileNotFoundError:
-            mbox.showerror(title="FPS BOOSTER",message="GamerUserSettingsLow.txt not found. Check files folder..")
+        pastebin_url = "https://pastebin.com/raw/DCNnK2J8"
+        response = requests.get(pastebin_url)
+        if response.status_code == 200:
+            text_data = response.text
+        else:
+            mbox.showerror(title="FPS BOOSTER",message="Failed to retrieve data. Contact owner")
             return
-
         try:
             with open(gameSettingsPath,"w") as w:
-                w.write(content)
+                w.write(text_data)
         except FileNotFoundError:
             mbox.showerror(title="FPS BOOSTER",message="Fortnite GameUserSettings.ini not found. Check fortnite instalation..")
             return
-
         mbox.showinfo(title="FPS BOOSTER",message="Operation finished!")
         return
     else:

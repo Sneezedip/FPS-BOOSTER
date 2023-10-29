@@ -6,9 +6,17 @@ from PIL import Image
 import tkinter.messagebox as mbox
 import os
 import requests
+from io import BytesIO
 
-icon = "images/icon.ico"
-logo = customtkinter.CTkImage(Image.open("images\Logo.png"), size=(100, 100))
+def GetImages(url):
+    image_url = url
+    response = requests.get(image_url)
+    if response.status_code == 200:
+        image = Image.open(BytesIO(response.content))
+        return image
+    else:
+        mbox.showerror(title="FPS BOOSTER",message="Failed to retrieve data. Contact owner")
+        exit()
 appdata = os.getenv('LOCALAPPDATA')
 radius = 20
 canSwitch = True
@@ -17,8 +25,6 @@ def windowConfig(window,x,y):
     window.eval('tk::PlaceWindow . center')
     window.maxsize(x,y)
     window.minsize(x,y)
-    window.iconbitmap(icon)
-    window.wm_iconbitmap(icon)
     window.overrideredirect(True)
     window.title('FPS BOOSTER')
 def set_window_shape(window, radius):
@@ -28,8 +34,14 @@ def set_window_shape(window, radius):
         region = ctypes.windll.gdi32.CreateRoundRectRgn(0, 0, window.winfo_width(), window.winfo_height(), radius, radius)
         ctypes.windll.user32.SetWindowRgn(hwnd, region, True)
 def tempWindow():
+    global offImage
+    
+    offImage = GetImages("https://i.ibb.co/P4sDBP1/off.png")
+    logo = customtkinter.CTkImage(GetImages("https://i.ibb.co/305xDz7/Logo.png"), size=(100, 100))
+
     def UpdateW():
          Main(tempw)
+
     tempw = customtkinter.CTk()
     windowConfig(tempw,300,300)
 
@@ -41,8 +53,7 @@ def tempWindow():
     progressbar.start()
     
     set_window_shape(tempw, radius)
-
-    tempw.after(1250,UpdateW)
+    tempw.after(1500,UpdateW)
     tempw.mainloop()
 
 def SwitchMode():
@@ -109,7 +120,7 @@ def LoadLabels(root):
     titleLabel.bind("<B1-Motion>",move_window)
 
     bgswitch = customtkinter.CTkSwitch(root,corner_radius=10,text="",bg_color="lightblue",button_color="grey",fg_color="white",progress_color="black",command=SwitchMode)
-    off = customtkinter.CTkImage(Image.open("images\off.png"), size=(15, 15))
+    off = customtkinter.CTkImage(offImage, size=(15, 15))
     close_button = customtkinter.CTkButton(root,text="",image=off,bg_color="lightblue",fg_color="lightblue",hover_color="lightblue",width=10,height=10,command=root.destroy,font=("verdana bold",15))
     cleanMemoryButton = customtkinter.CTkButton(root,text = "Optimize Windows",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",corner_radius=9,command=Optimization)
     netOptimizeButton = customtkinter.CTkButton(root,text = "Optimize Internet  ",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",corner_radius=9,command=NetOptimization)

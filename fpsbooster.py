@@ -1,9 +1,12 @@
 import ctypes
+import subprocess
 import time
 import customtkinter
 from PIL import Image
 import tkinter.messagebox as mbox
 import os
+import shutil
+import pyuac
 import requests
 from io import BytesIO
 
@@ -18,6 +21,7 @@ def GetImages(url): # This function is used to download the images stored online
         exit()
 
 appdata = os.getenv('LOCALAPPDATA') # Program configurations
+temp = os.getenv('TEMP')
 radius = 20                         # Program configurations                          
 canSwitch = True                    # Program configurations
 i = 0                               # Program configurations
@@ -127,8 +131,9 @@ def LoadLabels(root): # Load all labels inside the main window
     bgswitch = customtkinter.CTkSwitch(root,corner_radius=10,text="",bg_color="lightblue",button_color="grey",fg_color="white",progress_color="black",command=SwitchMode)
     off = customtkinter.CTkImage(offImage, size=(15, 15))
     close_button = customtkinter.CTkButton(root,text="",image=off,bg_color="lightblue",fg_color="lightblue",hover_color="lightblue",width=10,height=10,command=root.destroy,font=("verdana bold",15))
-    cleanMemoryButton = customtkinter.CTkButton(root,text = "Optimize Windows",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",corner_radius=9,command=Optimization)
+    cleanMemoryButton = customtkinter.CTkButton(root,text = "Optimize Windows ",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",corner_radius=9,command=Optimization)
     netOptimizeButton = customtkinter.CTkButton(root,text = "Optimize Internet  ",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",corner_radius=9,command=NetOptimization)
+    tempFilesRemover = customtkinter.CTkButton(root,text = "Clear Temp Files   ",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",corner_radius=9,command=TempRemover)
     fortniteLow = customtkinter.CTkButton(root,text = "Optimize Fortnite",font=("verdana",15),text_color="black",fg_color="lightblue",bg_color="transparent",hover_color=None,corner_radius=9,command=FortniteLowGraphics)
     fortniteLowLabel = customtkinter.CTkLabel(root,text="(low graphics)",font=("verdana",12),text_color="grey",bg_color="transparent",fg_color="transparent")
   
@@ -139,6 +144,7 @@ def LoadLabels(root): # Load all labels inside the main window
     titleLabel.place(x=150,y=0)
     cleanMemoryButton.place(x=30,y=70)
     netOptimizeButton.place(x=30,y=125)
+    tempFilesRemover.place(x=30,y=180)
     fortniteLowLabel.place(x=255,y=40)
     fortniteLow.place(x=230,y=70)
 
@@ -166,6 +172,20 @@ def Optimization(): # Windows Optimization
 def NetOptimization(): # Internet Optimization
     OptimizationNoSpam("https://pastebin.com/raw/Wvj1HDSi")
 
+def TempRemover(): # Removes all temporary files
+    for file in os.listdir(temp):
+        try:
+            
+            shutil.rmtree(temp+fr"\\"+file)
+        except:
+            continue
+    for file in os.listdir(temp):
+        try:
+            os.remove(temp+fr"\\"+file)
+        except:
+            continue
+    mbox.showinfo("FPS BOOSTER","Operation Finished.")
+
 def FortniteLowGraphics(): # Fortnite Optimization
     autorization = mbox.askquestion(title="Confirmation",message="This will replace your GameUserSettings.ini, would you like to continue?")
     if autorization == "yes":
@@ -188,5 +208,11 @@ def FortniteLowGraphics(): # Fortnite Optimization
     else:
         mbox.showinfo(title="FPS BOOSTER",message="Operation canceled.")
         return
-    
-tempWindow() # Load Loading Screen
+
+ 
+if __name__ == "__main__":
+    if pyuac.isUserAdmin():
+        tempWindow()
+    else:
+        pyuac.runAsAdmin()
+

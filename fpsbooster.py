@@ -8,7 +8,7 @@ import os
 import requests
 from io import BytesIO
 
-def GetImages(url):
+def GetImages(url): # This function is used to download the images stored online
     image_url = url
     response = requests.get(image_url)
     if response.status_code == 200:
@@ -17,25 +17,29 @@ def GetImages(url):
     else:
         mbox.showerror(title="FPS BOOSTER",message="Failed to retrieve data. Contact owner")
         exit()
-appdata = os.getenv('LOCALAPPDATA')
-radius = 20
-canSwitch = True
-i = 0
-def windowConfig(window,x,y):
+
+appdata = os.getenv('LOCALAPPDATA') # Program configurations
+radius = 20                         # Program configurations                          
+canSwitch = True                    # Program configurations
+i = 0                               # Program configurations
+
+def windowConfig(window,x,y): # Window Configuration for Code Efficiency
     window.eval('tk::PlaceWindow . center')
     window.maxsize(x,y)
     window.minsize(x,y)
     window.overrideredirect(True)
     window.title('FPS BOOSTER')
-def set_window_shape(window, radius):
+
+def set_window_shape(window, radius): # Window with round corners
         hwnd = window.winfo_id()
         window.update_idletasks()
         
         region = ctypes.windll.gdi32.CreateRoundRectRgn(0, 0, window.winfo_width(), window.winfo_height(), radius, radius)
         ctypes.windll.user32.SetWindowRgn(hwnd, region, True)
-def tempWindow():
+
+def tempWindow(): # Temporary window to load all assets (Loading Screen)
     global offImage
-    
+
     offImage = GetImages("https://i.ibb.co/P4sDBP1/off.png")
     logo = customtkinter.CTkImage(GetImages("https://i.ibb.co/305xDz7/Logo.png"), size=(100, 100))
 
@@ -56,15 +60,17 @@ def tempWindow():
     tempw.after(1500,UpdateW)
     tempw.mainloop()
 
-def SwitchMode():
+def SwitchMode(): # Switch used for Night/Light mode
     global canSwitch,i
     currentSelection = bgswitch.get()
-    def NoSpam():
+
+    def NoSpam(): # Color Gradiation for Code Efficiency
         border.configure(bg_color=color_code)
         cleanMemoryButton.configure(bg_color=color_code)
         netOptimizeButton.configure(bg_color=color_code)
         fortniteLow.configure(bg_color=color_code)
         fortniteLowLabel.configure(bg_color=color_code)
+    
     if canSwitch:
         canSwitch = False
         if i != 85:
@@ -90,7 +96,7 @@ def SwitchMode():
     else:
         bgswitch.select(currentSelection)
 
-def Main(tempw):
+def Main(tempw): # Main Window
     global root,bgswitch
     tempw.destroy()
     root = customtkinter.CTk()
@@ -99,13 +105,13 @@ def Main(tempw):
     set_window_shape(root, radius)
     root.mainloop()
 
-def LoadLabels(root):
+def LoadLabels(root): # Load all labels inside the main window
     global bgswitch,border,cleanMemoryButton,netOptimizeButton,fortniteLow,fortniteLowLabel 
-    def start_drag(event):
+    def start_drag(event): #Drag window by the custom title bar
             global x,y
             x = event.x
             y = event.y
-    def move_window(event):
+    def move_window(event): #Drag window by the custom title bar
         new_x = (root.winfo_x() + event.x) - x
         new_y = (root.winfo_y() + event.y) - y
         root.geometry(f"+{new_x}+{new_y}")
@@ -137,7 +143,7 @@ def LoadLabels(root):
     fortniteLowLabel.place(x=255,y=40)
     fortniteLow.place(x=230,y=70)
 
-def OptimizationNoSpam(url):
+def OptimizationNoSpam(url): # Optimization for Code Efficiency
     autorization = mbox.askquestion(title="Confirmation",message="This will run some commands in your command line, do you want to continue?")
     if autorization == "yes":
         response = requests.get(url)
@@ -155,13 +161,13 @@ def OptimizationNoSpam(url):
         mbox.showinfo(title="FPS BOOSTER",message="Operation canceled.")
         return
     
-def Optimization():
+def Optimization(): # Windows Optimization
     OptimizationNoSpam("https://pastebin.com/raw/ba14Y15t")
     
-def NetOptimization():
+def NetOptimization(): # Internet Optimization
     OptimizationNoSpam("https://pastebin.com/raw/Wvj1HDSi")
 
-def FortniteLowGraphics():
+def FortniteLowGraphics(): # Fortnite Optimization
     autorization = mbox.askquestion(title="Confirmation",message="This will replace your GameUserSettings.ini, would you like to continue?")
     if autorization == "yes":
         gameSettingsPath = appdata+fr"\FortniteGame\Saved\Config\WindowsClient\GameUserSettings.ini"
@@ -184,4 +190,4 @@ def FortniteLowGraphics():
         mbox.showinfo(title="FPS BOOSTER",message="Operation canceled.")
         return
     
-tempWindow()
+tempWindow() # Load Loading Screen

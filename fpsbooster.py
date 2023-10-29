@@ -1,5 +1,4 @@
 import ctypes
-import subprocess
 import time
 import customtkinter
 from PIL import Image

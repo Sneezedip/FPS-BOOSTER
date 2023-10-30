@@ -6,7 +6,6 @@ from PIL import Image
 import tkinter.messagebox as mbox
 import os
 import shutil
-import pyuac
 import requests
 from io import BytesIO
 
@@ -73,6 +72,8 @@ def SwitchMode(): # Switch used for Night/Light mode
         netOptimizeButton.configure(bg_color=color_code)
         fortniteLow.configure(bg_color=color_code)
         fortniteLowLabel.configure(bg_color=color_code)
+        tempFilesRemover.configure(bg_color=color_code)
+        temp
     
     if canSwitch:
         canSwitch = False
@@ -109,7 +110,7 @@ def Main(tempw): # Main Window
     root.mainloop()
 
 def LoadLabels(root): # Load all labels inside the main window
-    global bgswitch,border,cleanMemoryButton,netOptimizeButton,fortniteLow,fortniteLowLabel 
+    global bgswitch,border,cleanMemoryButton,netOptimizeButton,fortniteLow,fortniteLowLabel,tempFilesRemover
     def start_drag(event): #Drag window by the custom title bar
             global x,y
             x = event.x
@@ -122,7 +123,7 @@ def LoadLabels(root): # Load all labels inside the main window
     border = customtkinter.CTkFrame(root,400,300,border_color="lightblue",border_width=4,bg_color="white",fg_color="transparent")
 
     title_bar = customtkinter.CTkFrame(root,height=25,width=800,bg_color="lightblue",fg_color="lightblue")
-    titleLabel = customtkinter.CTkLabel(root,text="FPS BOOSTER",font=("Arial Baltic",17),height=25,text_color="black",bg_color="lightblue",fg_color="transparent")
+    titleLabel = customtkinter.CTkLabel(root,text="FPS BOOSTER",font=("arial bold",17),height=25,text_color="black",bg_color="lightblue",fg_color="transparent")
     title_bar.bind("<ButtonPress-1>",start_drag)
     title_bar.bind("<B1-Motion>",move_window)
     titleLabel.bind("<ButtonPress-1>",start_drag)
@@ -131,11 +132,11 @@ def LoadLabels(root): # Load all labels inside the main window
     bgswitch = customtkinter.CTkSwitch(root,corner_radius=10,text="",bg_color="lightblue",button_color="grey",fg_color="white",progress_color="black",command=SwitchMode)
     off = customtkinter.CTkImage(offImage, size=(15, 15))
     close_button = customtkinter.CTkButton(root,text="",image=off,bg_color="lightblue",fg_color="lightblue",hover_color="lightblue",width=10,height=10,command=root.destroy,font=("verdana bold",15))
-    cleanMemoryButton = customtkinter.CTkButton(root,text = "Optimize Windows ",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",corner_radius=9,command=Optimization)
-    netOptimizeButton = customtkinter.CTkButton(root,text = "Optimize Internet  ",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",corner_radius=9,command=NetOptimization)
-    tempFilesRemover = customtkinter.CTkButton(root,text = "Clear Temp Files   ",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",corner_radius=9,command=TempRemover)
-    fortniteLow = customtkinter.CTkButton(root,text = "Optimize Fortnite",font=("verdana",15),text_color="black",fg_color="lightblue",bg_color="transparent",hover_color=None,corner_radius=9,command=FortniteLowGraphics)
-    fortniteLowLabel = customtkinter.CTkLabel(root,text="(low graphics)",font=("verdana",12),text_color="grey",bg_color="transparent",fg_color="transparent")
+    cleanMemoryButton = customtkinter.CTkButton(root,text = "Optimize Windows ",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",bg_color="white",corner_radius=9,command=Optimization)
+    netOptimizeButton = customtkinter.CTkButton(root,text = "Optimize Internet  ",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",bg_color="white",corner_radius=9,command=NetOptimization)
+    tempFilesRemover = customtkinter.CTkButton(root,text = "Clear Temp Files   ",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",bg_color="white",corner_radius=9,command=TempRemover)
+    fortniteLow = customtkinter.CTkButton(root,text = "Optimize Fortnite",font=("verdana",15),text_color="black",fg_color="lightblue",bg_color="white",hover_color=None,corner_radius=9,command=FortniteLowGraphics)
+    fortniteLowLabel = customtkinter.CTkLabel(root,text="(low graphics)",font=("verdana",12),text_color="grey",bg_color="white",fg_color="transparent")
   
     border.place(x=0,y=0)
     title_bar.place(x=0,y=0)
@@ -210,9 +211,9 @@ def FortniteLowGraphics(): # Fortnite Optimization
         return
 
  
-if __name__ == "__main__":
-    if pyuac.isUserAdmin():
-        tempWindow()
-    else:
-        pyuac.runAsAdmin()
+#if __name__ == "__main__":
+    #if pyuac.isUserAdmin():
+tempWindow()
+    #else:
+        #pyuac.runAsAdmin()
 

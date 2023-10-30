@@ -9,6 +9,8 @@ import shutil
 import requests
 from io import BytesIO
 
+
+
 def GetImages(url): # This function is used to download the images stored online
     image_url = url
     response = requests.get(image_url)
@@ -20,7 +22,7 @@ def GetImages(url): # This function is used to download the images stored online
         exit()
 
 appdata = os.getenv('LOCALAPPDATA') # Program configurations
-temp = os.getenv('TEMP')
+temp = os.getenv('TEMP')            # Program configurations
 radius = 20                         # Program configurations                          
 canSwitch = True                    # Program configurations
 i = 0                               # Program configurations
@@ -132,10 +134,10 @@ def LoadLabels(root): # Load all labels inside the main window
     bgswitch = customtkinter.CTkSwitch(root,corner_radius=10,text="",bg_color="lightblue",button_color="grey",fg_color="white",progress_color="black",command=SwitchMode)
     off = customtkinter.CTkImage(offImage, size=(15, 15))
     close_button = customtkinter.CTkButton(root,text="",image=off,bg_color="lightblue",fg_color="lightblue",hover_color="lightblue",width=10,height=10,command=root.destroy,font=("verdana bold",15))
-    cleanMemoryButton = customtkinter.CTkButton(root,text = "Optimize Windows ",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",bg_color="white",corner_radius=9,command=Optimization)
-    netOptimizeButton = customtkinter.CTkButton(root,text = "Optimize Internet  ",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",bg_color="white",corner_radius=9,command=NetOptimization)
-    tempFilesRemover = customtkinter.CTkButton(root,text = "Clear Temp Files   ",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",bg_color="white",corner_radius=9,command=TempRemover)
-    fortniteLow = customtkinter.CTkButton(root,text = "Optimize Fortnite",font=("verdana",15),text_color="black",fg_color="lightblue",bg_color="white",hover_color=None,corner_radius=9,command=FortniteLowGraphics)
+    cleanMemoryButton = customtkinter.CTkButton(root,text = "Optimize Windows",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",bg_color="white",corner_radius=9,command=Optimization)
+    netOptimizeButton = customtkinter.CTkButton(root,text = "Optimize Internet",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",bg_color="white",corner_radius=9,command=NetOptimization)
+    tempFilesRemover = customtkinter.CTkButton(root,text = "Clear Temp Files",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",bg_color="white",corner_radius=9,command=TempRemover)
+    fortniteLow = customtkinter.CTkButton(root,text = "Optimize Fortnite",font=("verdana",15),text_color="black",fg_color="lightblue",bg_color="white",hover_color="white",corner_radius=9,command=FortniteLowGraphics)
     fortniteLowLabel = customtkinter.CTkLabel(root,text="(low graphics)",font=("verdana",12),text_color="grey",bg_color="white",fg_color="transparent")
   
     border.place(x=0,y=0)
@@ -175,8 +177,7 @@ def NetOptimization(): # Internet Optimization
 
 def TempRemover(): # Removes all temporary files
     for file in os.listdir(temp):
-        try:
-            
+        try:         
             shutil.rmtree(temp+fr"\\"+file)
         except:
             continue

@@ -26,6 +26,7 @@ temp = os.getenv('TEMP')            # Program configurations
 radius = 20                         # Program configurations                          
 canSwitch = True                    # Program configurations
 i = 0                               # Program configurations
+version = "1"
 
 def windowConfig(window,x,y): # Window Configuration for Code Efficiency
     window.eval('tk::PlaceWindow . center')
@@ -40,7 +41,17 @@ def set_window_shape(window, radius): # Window with round corners
         
         region = ctypes.windll.gdi32.CreateRoundRectRgn(0, 0, window.winfo_width(), window.winfo_height(), radius, radius)
         ctypes.windll.user32.SetWindowRgn(hwnd, region, True)
-
+def checkVersion():
+    response = requests.get("https://pastebin.com/raw/CWGzYZ1t")
+    if response.status_code == 200:
+        if response.text == version:
+            tempWindow()
+        else:
+            mbox.showerror(title="FPS BOOSTER",message="Outdated version. Please Contact Owner (.sneezedip)")
+            return 
+    else:
+        mbox.showerror(title="FPS BOOSTER",message="Outdated version. Please Contact Owner (.sneezedip)")
+        return    
 def tempWindow(): # Temporary window to load all assets (Loading Screen)
     global offImage
 
@@ -75,6 +86,7 @@ def SwitchMode(): # Switch used for Night/Light mode
         fortniteLow.configure(bg_color=color_code)
         fortniteLowLabel.configure(bg_color=color_code)
         tempFilesRemover.configure(bg_color=color_code)
+        creditslabel.configure(bg_color=color_code)
         temp
     
     if canSwitch:
@@ -112,7 +124,7 @@ def Main(tempw): # Main Window
     root.mainloop()
 
 def LoadLabels(root): # Load all labels inside the main window
-    global bgswitch,border,cleanMemoryButton,netOptimizeButton,fortniteLow,fortniteLowLabel,tempFilesRemover
+    global bgswitch,border,cleanMemoryButton,netOptimizeButton,fortniteLow,fortniteLowLabel,tempFilesRemover,creditslabel
     def start_drag(event): #Drag window by the custom title bar
             global x,y
             x = event.x
@@ -139,6 +151,8 @@ def LoadLabels(root): # Load all labels inside the main window
     tempFilesRemover = customtkinter.CTkButton(root,text = "Clear Temp Files",font=("verdana",15),text_color="black",fg_color="lightblue",hover_color="white",bg_color="white",corner_radius=9,command=TempRemover)
     fortniteLow = customtkinter.CTkButton(root,text = "Optimize Fortnite",font=("verdana",15),text_color="black",fg_color="lightblue",bg_color="white",hover_color="white",corner_radius=9,command=FortniteLowGraphics)
     fortniteLowLabel = customtkinter.CTkLabel(root,text="(low graphics)",font=("verdana",12),text_color="grey",bg_color="white",fg_color="transparent")
+
+    creditslabel = customtkinter.CTkLabel(root,text="Made by .sneezedip",font=("verdana",12),text_color="blue",bg_color="white",fg_color="transparent")
   
     border.place(x=0,y=0)
     title_bar.place(x=0,y=0)
@@ -150,6 +164,7 @@ def LoadLabels(root): # Load all labels inside the main window
     tempFilesRemover.place(x=30,y=180)
     fortniteLowLabel.place(x=255,y=40)
     fortniteLow.place(x=230,y=70)
+    creditslabel.place(x=140,y=260)
 
 def OptimizationNoSpam(url): # Optimization for Code Efficiency
     autorization = mbox.askquestion(title="Confirmation",message="This will run some commands in your command line, do you want to continue?")
@@ -210,11 +225,7 @@ def FortniteLowGraphics(): # Fortnite Optimization
     else:
         mbox.showinfo(title="FPS BOOSTER",message="Operation canceled.")
         return
+    
+checkVersion()
 
- 
-#if __name__ == "__main__":
-    #if pyuac.isUserAdmin():
-tempWindow()
-    #else:
-        #pyuac.runAsAdmin()
 
